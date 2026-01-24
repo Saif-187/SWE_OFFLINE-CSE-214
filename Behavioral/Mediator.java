@@ -16,80 +16,36 @@ public class Mediator {
      public boolean enrollStudent(Student student, Course course) {
         if (student == null || course == null) return false;
         
-        if (!course.isVisibleToStudents()) {
-            System.out.println("Course " + course.code + " is not available for student enrollment.");
-            return false;
-        }
-        
-        if (student.getEnrolledCourses().contains(course)) {
-            System.out.println(student.name + " is already enrolled in " + course.code);
-            return true;
-        }
-        
-        boolean success = course.tryEnroll(student);
-        
-        if (success) {
-            student.addEnrolledCourseDirect(course);
-        }
-        
-        return success;
+        return course.tryEnroll(student);
     }
     public boolean waitlistStudent(Student student, Course course) {
         if (student == null || course == null) return false;
-        
-        if (!course.isVisibleToStudents()) {
-            System.out.println("Course " + course.code + " is not available.");
-            return false;
-        }
-        
-        if (student.getWaitlistedCourses().contains(course)) {
-            System.out.println(student.name + " is already waitlisted for " + course.code);
-            return false;
-        }
-        
-        if (student.getEnrolledCourses().contains(course)) {
-            System.out.println(student.name + " is already enrolled in " + course.code + "; cannot waitlist.");
-            return false;
-        }
-        
-        boolean success = course.addToWaitlist(student);
-        
-        if (success) {
-            student.addWaitlistCourseDirect(course);
-        }
-        
-        return success;
+        return course.addToWaitlist(student);
     }
     public boolean dropStudent(Student student, Course course) {
         if (student == null || course == null) return false;
-        
-        boolean success = course.dropStudent(student);
-        
-        if (success) {
-            student.removeCourseDirect(course);
-        }
-        
-        return success;
+        return course.dropStudent(student);
     }
-    public void promoteFromWaitlist(Course course, Student student) {
-        if (student == null || course == null) return;
-        
+     public void notifyStudentEnrolled(Student student, Course course) {
+        student.addEnrolledCourseDirect(course);
+    }
+    
+    public void notifyStudentWaitlisted(Student student, Course course) {
+        student.addWaitlistCourseDirect(course);
+    }
+    
+    public void notifyStudentDropped(Student student, Course course) {
+        student.removeCourseDirect(course);
+    }
+    
+    public void notifyWaitlistPromoted(Student student, Course course) {
         student.removeCourseDirect(course);
         student.addEnrolledCourseDirect(course);
-        
         System.out.println("Promoted from waitlist: " + student.name + " into " + course.code);
     }
-     public void handleCourseCancellation(Course course) {
-        if (course == null) return;
-        
-        for (Student student : course.getEnrolledStudents()) {
-            student.removeCourseDirect(course);
-        }
-        
-        for (Student student : course.getWaitlistStudents()) {
-            student.removeCourseDirect(course);
-        }
-        
-        System.out.println(course.code + " has been CANCELLED. All students dropped and waitlist cleared.");
+    
+    public void promoteFromWaitlist(Course course, Student student) {
+        notifyWaitlistPromoted(student, course);
     }
+    
 }

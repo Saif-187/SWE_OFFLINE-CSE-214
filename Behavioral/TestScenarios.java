@@ -283,7 +283,7 @@ public class TestScenarios {
         System.out.println("Note: Both Student and Course maintain duplicate state!\n");
 
         // Test 23: Waitlist promotion shows direct cross-manipulation
-        System.out.println("--- Test 23: Waitlist promotion (Course updates Student directly) ---");
+        System.out.println("--- Test 23: Waitlist promotion (Course updates Student directly) ---\n");
         Course cse1000 = new Course("CSE1000", "Capstone Project", 1, CourseStatus.OPEN);
         reg.addCourse(cse1000);
         bob.enrollIn(cse1000);

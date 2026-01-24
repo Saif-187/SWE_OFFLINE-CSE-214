@@ -11,7 +11,7 @@ public class Open implements State {
         if (course.getEnrolledStudents().size() < course.getCapacity()) {
             course.getEnrolledStudents().add(student);
             System.out.println("Enrolled: " + student.name + " in " + course.code);
-            
+            notifyEnrollment(course, student);
             if (course.getEnrolledStudents().size() >= course.getCapacity()) {
                 course.transitionTo(CourseStatus.FULL);
                 System.out.println(course.code + " is now FULL.");
@@ -32,15 +32,14 @@ public class Open implements State {
     
     @Override
     public boolean dropStudent(Course course, Student student) {
-        boolean changed = false;
-        
         if (course.getEnrolledStudents().contains(student)) {
             course.getEnrolledStudents().remove(student);
             System.out.println("Dropped from enrolled: " + student.name + " from " + course.code);
-            changed = true;
+            
+            notifyDropped(course, student);
+            return true;
         }
-        
-        return changed;
+        return false;
     }
     
     @Override
@@ -54,15 +53,14 @@ public class Open implements State {
     public void handleSetCapacity(Course course, int newCapacity) {
         if (newCapacity < 0) newCapacity = 0;
         System.out.println("Setting capacity of " + course.code + " to " + newCapacity);
+        course.setCapacityInternal(newCapacity);
         if (course.getEnrolledStudents().size() < newCapacity) {
-            course.setCapacityInternal(newCapacity);
+            course.transitionTo(CourseStatus.OPEN);
             System.out.println(course.code + " status changed to OPEN (capacity allows enrollment).");
         } else if (course.getEnrolledStudents().size() == newCapacity) {
-            course.setCapacityInternal(newCapacity);
             course.transitionTo(CourseStatus.FULL);
             System.out.println(course.code + " status changed to FULL (at capacity).");
         } else {
-            course.setCapacityInternal(newCapacity);
             course.transitionTo(CourseStatus.FULL);
             System.out.println(course.code + " over capacity; remains FULL.");
         }

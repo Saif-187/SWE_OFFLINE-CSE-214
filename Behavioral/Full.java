@@ -21,6 +21,7 @@ public class Full implements State {
         
         course.getWaitlistStudents().add(student);
         System.out.println("Waitlisted: " + student.name + " for " + course.code);
+        notifyWaitlisting(course, student);
         return true;
     }
     
@@ -32,12 +33,12 @@ public class Full implements State {
             course.getEnrolledStudents().remove(student);
             System.out.println("Dropped from enrolled: " + student.name + " from " + course.code);
             changed = true;
-            
+            notifyDropped(course, student);
             if (!course.getWaitlistStudents().isEmpty() && 
                 course.getEnrolledStudents().size() < course.getCapacity()) {
                 Student promoted = course.getWaitlistStudents().remove(0);
                 course.getEnrolledStudents().add(promoted);
-                Mediator.getInstance().promoteFromWaitlist(course, promoted);
+                notifyPromoted(course, promoted);
                 
                 if (course.getEnrolledStudents().size() < course.getCapacity()) {
                     course.transitionTo(CourseStatus.OPEN);
@@ -48,6 +49,7 @@ public class Full implements State {
             course.getWaitlistStudents().remove(student);
             System.out.println("Removed from waitlist: " + student.name + " for " + course.code);
             changed = true;
+            notifyDropped(course, student);
         } else {
             System.out.println(student.name + " is neither enrolled nor waitlisted for " + course.code);
         }

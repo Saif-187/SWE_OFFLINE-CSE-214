@@ -1,3 +1,6 @@
+import java.util.ArrayList;
+import java.util.List;
+
 public class Cancelled implements State {
     @Override
     public boolean tryEnroll(Course course, Student student) {
@@ -29,5 +32,23 @@ public class Cancelled implements State {
     @Override
     public CourseStatus getStatus() {
         return CourseStatus.CANCELLED;
+    }
+    @Override
+    public void handleCourseCancellation(Course course) {
+        
+        List<Student> enrolledCopy = new ArrayList<>(course.getEnrolledStudents());
+        List<Student> waitlistCopy = new ArrayList<>(course.getWaitlistStudents());
+        
+        for (Student student : enrolledCopy) {
+            notifyDropped(course, student);
+        }
+        for (Student student : waitlistCopy) {
+            notifyDropped(course, student);
+        }
+        
+        course.getEnrolledStudents().clear();
+        course.getWaitlistStudents().clear();
+        
+        
     }
 }

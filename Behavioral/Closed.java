@@ -19,10 +19,12 @@ public class Closed implements State {
             course.getEnrolledStudents().remove(student);
             System.out.println("Dropped from enrolled: " + student.name + " from " + course.code);
             changed = true;
+            notifyDropped(course, student);
         } else if (course.getWaitlistStudents().contains(student)) {
             course.getWaitlistStudents().remove(student);
             System.out.println("Removed from waitlist: " + student.name + " for " + course.code);
             changed = true;
+            notifyDropped(course, student);
         } else {
             System.out.println(student.name + " is neither enrolled nor waitlisted for " + course.code);
         }

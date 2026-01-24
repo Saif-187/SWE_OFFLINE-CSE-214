@@ -214,9 +214,9 @@ public class Course {
 
     private void cancelCourse() {
         transitionTo(CourseStatus.CANCELLED);
-        Mediator.getInstance().handleCourseCancellation(this);
-        enrolled.clear();
-        waitlist.clear();
+        System.out.println(code + " has been CANCELLED. All students dropped and waitlist cleared.");
+        System.out.println();
+        currentState.handleCourseCancellation(this);
     }
 
     private void closeWithRandomWaitlistSelection(int targetCapacity) {
@@ -236,7 +236,7 @@ public class Course {
                     Student promoted = waitlistCopy.remove(randomIndex);
                     waitlist.remove(promoted);
                     enrolled.add(promoted);
-                    Mediator.getInstance().promoteFromWaitlist(this, promoted);
+                    currentState.notifyPromoted(this, promoted);
                     System.out.println("  Randomly selected: " + promoted.name + " for " + code);
                 }
             }
