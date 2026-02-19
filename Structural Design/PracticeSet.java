@@ -1,7 +1,7 @@
 public class PracticeSet extends DecoModule {
     private static final double cost=10.0;
 
-    public PracticeSet(Module module) {
+    public PracticeSet(AbstractModule module) {
         super(module);
     }
 

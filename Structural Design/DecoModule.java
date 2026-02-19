@@ -1,7 +1,7 @@
-public abstract class DecoModule extends Module {
-    protected Module module;
+public abstract class DecoModule extends AbstractModule {
+    protected AbstractModule module;
 
-    public DecoModule(Module module) {
+    public DecoModule(AbstractModule module) {
         super(module.getName());
         this.module = module;
     }

@@ -7,7 +7,6 @@ public class DevelopingCountry extends DiscountCart {
 
     @Override
     protected boolean isEligibleForDiscount() {
-    // Only apply discount if cart has items
         return super.isFromDevelopingCountry() && !cart.getItems().isEmpty();
     }
     

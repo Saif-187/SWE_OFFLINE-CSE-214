@@ -1,7 +1,7 @@
 public class Lesson implements Product {
-    private String name;
-    private double price;
-    private double duration; 
+    private final String name;
+    private final double price;
+    private final double duration; 
 
     public Lesson(String name, double price, double duration) {
         this.name = name;

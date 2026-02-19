@@ -1,35 +1,9 @@
 import java.util.ArrayList;
 
-public class Course implements Product {
-    private String name;
-    private ArrayList<Lesson> lessons ;
+public class Course extends AbstractProduct {
 
     public Course(String name) {
-        this.name = name;
-        this.lessons = new ArrayList<>();
-    }
-
-    @Override
-    public String getName() {
-        return name;
-    }
-
-    @Override
-    public double getPrice() {
-        double totalPrice = 0;
-        for (Product lesson : lessons) {
-            totalPrice += lesson.getPrice();
-        }
-        return totalPrice;
-    }
-
-    @Override
-    public double getDuration() {
-        double totalDuration = 0;
-        for (Product lesson : lessons) {
-            totalDuration += lesson.getDuration();
-        }
-        return totalDuration;
+        super(name);
     }
 
     @Override
@@ -38,22 +12,24 @@ public class Course implements Product {
         System.out.println("Total Price: $" + getPrice());
         System.out.println("Total Duration: " + getDuration() + " hours");
         System.out.println("Lessons:");
-        for (Product lesson : lessons) {
+        for (Product lesson : products) {
             lesson.displayInfo();
             System.out.println();
         }
     }
-    public void addLesson(Lesson lesson) {
-        lessons.add(lesson);
+    public void addLesson(Product lesson) {
+        if(lesson instanceof Lesson) {
+            addProduct(lesson);
+        }
+        else{
+            throw new IllegalArgumentException("Only Lesson components can be added to a Course.");
+        }
     }
-    public ArrayList<Lesson> getLessons() {
-        return lessons;
+    public ArrayList<Product> getLessons() {
+        return products;
     }
-    public void setLessons(ArrayList<Lesson> lessons) {
-        this.lessons = lessons;
-    }
-    public void removeLesson(Lesson lesson) {
-        lessons.remove(lesson);
+    public void removeLesson(Product lesson) {
+        removeProduct(lesson);
     }
 
     

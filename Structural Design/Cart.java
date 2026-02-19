@@ -6,16 +6,19 @@ public class Cart implements CartInterface {
     public Cart() {
         this.items = new ArrayList<>();
     }
+    @Override
     public void addItem(Product product) {
-        if(!(product instanceof Module || product instanceof Course || product instanceof Lesson)) {
+        if(!(product instanceof Course || product instanceof Lesson || product instanceof AbstractModule)) {
             System.out.println("Only lessons,courses,modules can be added to the cart.");
             return;
         }
         items.add(product);
     }
+    @Override
     public void removeItem(Product product) {
         items.remove(product);
     }
+    @Override
     public double getTotalPrice() {
         double totalPrice = 0;
         for (Product item : items) {
@@ -23,6 +26,7 @@ public class Cart implements CartInterface {
         }
         return totalPrice;
     }
+    @Override
     public double getTotalDuration() {
         double totalDuration = 0;
         for (Product item : items) {
@@ -30,6 +34,7 @@ public class Cart implements CartInterface {
         }
         return totalDuration;
     }
+    @Override
     public void displayCart() {
         System.out.println("Cart Contents:");
         for (Product item : items) {
@@ -39,6 +44,7 @@ public class Cart implements CartInterface {
         System.out.println("Total Price: $" + getTotalPrice());
         System.out.println("Total Duration: " + getTotalDuration() + " hours");
     }
+    @Override
     public int totalModules(){
         int count = 0;
         for (Product item : items) {
@@ -48,18 +54,22 @@ public class Cart implements CartInterface {
         }
         return count;
     }
+    @Override
     public boolean isFromDevelopingCountry() {
         return isFromDevelopingCountry;
     }
+    @Override
     public void setFromDevelopingCountry(boolean fromDevelopingCountry) {
         isFromDevelopingCountry = fromDevelopingCountry;
     }
+    @Override
     public ArrayList<Product> getItems() {
         return items;
     }
     public void setItems(ArrayList<Product> items) {
         this.items = items;
     }
+    @Override
     public void clearCart() {
         items.clear();
     }

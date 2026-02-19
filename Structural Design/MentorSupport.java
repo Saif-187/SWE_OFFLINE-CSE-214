@@ -1,7 +1,7 @@
 public class MentorSupport extends DecoModule {
     private static final double cost=20.0;
 
-    public MentorSupport(Module module) {
+    public MentorSupport(AbstractModule module) {
         super(module);
     }
 
