@@ -26,7 +26,7 @@ public class Course extends AbstractProduct {
         }
     }
     public ArrayList<Product> getLessons() {
-        return products;
+        return getProducts();
     }
     public void removeLesson(Product lesson) {
         removeProduct(lesson);

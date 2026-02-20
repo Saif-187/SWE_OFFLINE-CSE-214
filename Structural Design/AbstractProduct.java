@@ -12,6 +12,9 @@ public abstract class AbstractProduct implements Product {
     public void removeProduct(Product product) {
         products.remove(product);
     }
+    public ArrayList<Product> getProducts() {
+        return products;
+    }
     @Override
     public String getName() {
         return name;

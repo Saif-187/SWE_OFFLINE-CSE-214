@@ -13,7 +13,7 @@ public class Module extends AbstractModule {
         }
     }
     public ArrayList<Product> getCourses() {
-        return products;
+        return getProducts();
     }
     public void removeCourse(Product product) {
         removeProduct(product);
